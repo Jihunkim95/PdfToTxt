@@ -14,14 +14,14 @@ jobs:
       matrix:
         include:
           - os: windows-latest
-            artifact_name: korean-pdf-converter.exe
-            build_command: pyinstaller --onefile --windowed --name "korean-pdf-converter" korean_pdf_converter.py
+            artifact_name: PDFtoText.exe
+            build_command: pyinstaller --onefile --windowed --name "PDFtoText" enhanced_pdf_converter.py
           - os: macos-latest
-            artifact_name: korean-pdf-converter
-            build_command: pyinstaller --onefile --windowed --name "korean-pdf-converter" korean_pdf_converter.py
+            artifact_name: PDFtoText
+            build_command: pyinstaller --onefile --windowed --name "PDFtoText" enhanced_pdf_converter.py
           - os: ubuntu-latest
-            artifact_name: korean-pdf-converter
-            build_command: pyinstaller --onefile --name "korean-pdf-converter" korean_pdf_converter.py
+            artifact_name: PDFtoText
+            build_command: pyinstaller --onefile --name "PDFtoText" enhanced_pdf_converter.py
 
     steps:
     - uses: actions/checkout@v3
