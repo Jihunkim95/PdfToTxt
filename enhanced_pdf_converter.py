@@ -137,7 +137,7 @@ class KoreanPDFConverter:
                 # Windows에서 작업표시줄 앱 ID 설정
                 try:
                     import ctypes
-                    myappid = 'sogang.korean_pdf_converter.v2.0'
+                    myappid = 'sogang.pdf_to_text_converter.v1.2'
                     ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
                 except:
                     pass
@@ -157,7 +157,7 @@ class KoreanPDFConverter:
     
     def show_preferences(self):
         """macOS 환경설정 메뉴 핸들러"""
-        messagebox.showinfo("환경설정", "한글 PDF 변환기 v2.0\n제작: jhkim1009@sogang.ac.kr")
+        messagebox.showinfo("환경설정", "한글 PDF 변환기 v1.2\n제작: jhkim1009@sogang.ac.kr")
     
     def check_libraries(self):
         """사용 가능한 라이브러리 체크"""
