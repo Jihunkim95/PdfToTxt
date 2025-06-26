@@ -1,0 +1,73 @@
+# .github/workflows/release.yml
+name: Release PDFtoText
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    - run: |
+        pip install PyPDF2 pdfplumber PyMuPDF pdfminer.six pyinstaller
+        pyinstaller --onefile --windowed --name PDFtoText enhanced_pdf_converter.py
+    - uses: actions/upload-artifact@v4
+      with:
+        name: windows-exe
+        path: dist/PDFtoText.exe
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    - run: |
+        pip install PyPDF2 pdfplumber PyMuPDF pdfminer.six pyinstaller
+        pyinstaller --onefile --windowed --name PDFtoText enhanced_pdf_converter.py
+    - uses: actions/upload-artifact@v4
+      with:
+        name: macos-app
+        path: dist/PDFtoText
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.9'
+    - run: |
+        pip install PyPDF2 pdfplumber PyMuPDF pdfminer.six pyinstaller
+        pyinstaller --onefile --name PDFtoText enhanced_pdf_converter.py
+    - uses: actions/upload-artifact@v4
+      with:
+        name: linux-bin
+        path: dist/PDFtoText
+
+  release:
+    needs: [build-windows, build-macos, build-linux]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    steps:
+    - uses: actions/download-artifact@v4
+    - run: ls -la */
+    - uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          windows-exe/PDFtoText.exe
+          macos-app/PDFtoText
+          linux-bin/PDFtoText
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
